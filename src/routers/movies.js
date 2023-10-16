@@ -9,5 +9,6 @@ route.get("/movie/:id",moviesController.edit)
 route.put("/update-movie/:id",moviesController.update)
 route.get("/get-movies-released",moviesController.moviesReleased)
 route.get("/get-movies-upcoming",moviesController.moviesUpComing)
+route.get("/movie/star/:id",moviesController.starMovie)
 route.post("/search-movie",moviesController.searchMovie)
 module.exports=route;

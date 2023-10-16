@@ -40,7 +40,7 @@ class UserController {
         { expiresIn: "1h" }
       );
       res.cookie("token", token, { httpOnly: true });
-      return res.json({ token });
+      return res.json({ token,role:user.role });
     } catch (error) {
       return res.status(501).json(error);
     }
@@ -70,6 +70,8 @@ class UserController {
       }
       const code= await EmailCode.codeConfirm(email);
       res.cookie("code",code,{httpOnly:true})
+      // // document.cookie="code="+code
+      // localStorage.setItem("code",JSON.stringify(code))
       return res.status(201).json({ status: 201});
     } catch (error) {
       return res.status(501).json("Invalid email");

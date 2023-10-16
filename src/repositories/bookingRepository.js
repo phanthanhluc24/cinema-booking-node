@@ -10,6 +10,8 @@ class BookingRepository{
         const seatNumber=(await bookings).map(booking=>booking.seat_number)
         return seatNumber
     }
+
+    
 }
 module.exports=new BookingRepository()
 

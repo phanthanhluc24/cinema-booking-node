@@ -1,4 +1,6 @@
 const MoviesRepositories=require("../repositories/moviesRepository")
+const CommentRepository=require("../repositories/commentRepository")
+
 
 class MoviesController{
    async create(req,res){
@@ -90,6 +92,26 @@ class MoviesController{
             res.status(201).json(search)
         } catch (error) {
             res.status(401).json("Data not found")
+        }
+    }
+
+    async starMovie(req,res){
+        const id=req.params.id
+        let stars=[]
+        try {
+            const star=await CommentRepository.getStarMovie(id)
+            for (let i = 0; i < star.length; i++) {
+                const changeType=parseInt(star[i].star)
+                stars.push(changeType)
+            }
+            let sumStar=0
+            for (let j = 0; j < stars.length; j++) {
+                sumStar=sumStar+stars[j]
+            }
+            const totalStar=sumStar/stars.length
+            res.json(totalStar)
+        } catch (error) {
+            res.json("error")
         }
     }
 }
