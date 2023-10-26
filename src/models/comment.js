@@ -2,8 +2,8 @@ const mongoose=require("mongoose")
 const Schema=mongoose.Schema
 
 const commentSchema =new Schema({
-    userId:{type:String,require:true},
-    movieId:{type:String,require:true},
+    userId:{type:Schema.Types.ObjectId,ref:"users",require:true},
+    movieId:{type:Schema.Types.ObjectId,ref:"movies",require:true},
     comment:{type:String,require:true},
     star:{type:String}
 })

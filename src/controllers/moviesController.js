@@ -114,6 +114,26 @@ class MoviesController{
             res.json("error")
         }
     }
+
+    async relatedMovie(req,res){
+        const genre=req.params.genre
+        const _id=req.params._id
+        try {
+            const relatedMovies=await MoviesRepositories.movieRelated({genre,_id})
+            res.status(201).json(relatedMovies)
+        } catch (error) {
+            res.status(501).json("Genre not found")
+        }
+    }
+
+    async randomMovie(req,res){
+        try {
+            const data=await MoviesRepositories.getRandomImage();
+            res.status(201).json(data)
+        } catch (error) {
+            res.status(501).json("Error to get Image")
+        }
+    }
 }
 
 module.exports=new MoviesController();

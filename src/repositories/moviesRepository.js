@@ -40,7 +40,16 @@ class ProductRepositories{
         ]})
        
     }
-
     
+    async movieRelated(genre,_id){
+        return await Movies.find({"genre":genre,"_id":{$ne:_id}})
+    }
+    
+    async getRandomImage(){
+        return await Movies.aggregate([
+            {$project:{_id:0,image:1}},
+            {$sample:{size:4}}
+        ])
+    }
 }
 module.exports=new ProductRepositories();

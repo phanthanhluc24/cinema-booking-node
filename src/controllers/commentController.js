@@ -23,5 +23,15 @@ class CommentController{
             }
         })
     }
+
+    async getAllComment(req,res){
+        const id=req.params.id
+        try {
+            const allComment=await CommentRepository.getAllCommentMovie(id)
+            res.status(201).json(allComment)
+        } catch (error) {
+            return res.status(501).json("Fail to get comment")
+        }
+    }
 }
 module.exports=new CommentController()
