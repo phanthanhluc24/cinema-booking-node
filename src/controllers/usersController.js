@@ -61,6 +61,7 @@ class UserController {
     }
   }
 
+  //not yet done
   async confirmAccountUser(req, res) {
     const { email } = req.body;
     try {
@@ -99,6 +100,16 @@ class UserController {
       res.status(201).json({status:201,message:"Logout successfully"})
     } catch (error) {
       res.status(501).json("Log out fail")
+    }
+  }
+
+  async allUserChat(req,res){
+    const id=req.params.id
+    try {
+      const allUser=await userRepository.getUserChat(id)
+      res.status(201).json(allUser)
+    } catch (error) {
+      res.status(501).json(error)
     }
   }
 }

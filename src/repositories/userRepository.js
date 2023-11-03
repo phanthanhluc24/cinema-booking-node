@@ -8,6 +8,10 @@ class UserRepositories{
     async getUserByEmail(email){
         return await userModel.findOne({email})
     }
+
+    async getUserChat(id){
+        return await userModel.find({_id:{$in:id}})
+    }
 }
 
 module.exports=new UserRepositories();

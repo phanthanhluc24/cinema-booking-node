@@ -6,6 +6,7 @@ route.post("/register",userController.register)
 route.post("/login",userController.userLogin)
 route.get("/current-user",userController.authUser)
 route.post("/auth-user-email",userController.confirmAccountUser)
-route.get('/code-cookie',userController.token)
+route.get('/code-cookie',userController.token)// not yet done
 route.post("/logout",userController.logout)
+route.get("/list-user/:id",userController.allUserChat)
 module.exports=route

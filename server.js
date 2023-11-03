@@ -44,27 +44,61 @@ const io = socketIo(server, {
     methods: ["GET", "POST"],
   },
 });
-io.on("connection", (socket) => {
-  console.log("a user connected", socket.id);
+// io.on("connection", (socket) => {
+//   console.log("a user connected", socket.id);
 
-  socket.on("join_room",(data)=>{
-    socket.join(data)
-    console.log(`A user join the room ${data} with id is ${socket.id}`);
+//   socket.on("join_room",(data)=>{
+//     socket.join(data)
+//     console.log(`A user join the room ${data} with id is ${socket.id}`);
+//   })
+
+//   // handle incoming message
+//   socket.on("chat message", (data) => {
+//     const { room, message, name, times } = data;
+//     io.to(room).emit("received_message",{name:name,message:message,times:times,idUser:socket.id});
+//     console.log("the message", data);
+//     console.log("the Id", room);
+//   });
+
+//   // handle user disconnection
+//   socket.on("disconnect", () => {
+//     console.log("A user disconnect");
+//   });
+// });
+
+// another socketIo
+let activeUsers=[]
+// user connected
+io.on("connection",(socket)=>{
+  socket.on("new-user-add",(newUserId)=>{
+    if (!activeUsers.some((user)=>user.userId===newUserId)) {
+      activeUsers.push({
+        userId:newUserId,
+        socketId:socket.id
+      })
+    }
+    console.log("Connected User",activeUsers);
+    io.emit("get-users",activeUsers)
   })
 
-  // handle incoming message
-  socket.on("chat message", (data) => {
-    const { room, message, name, times } = data;
-    io.to(room).emit("received_message",{name:name,message:message,times:times,idUser:socket.id});
-    console.log("the message", data);
-    console.log("the Id", room);
-  });
-
-  // handle user disconnection
-  socket.on("disconnect", () => {
-    console.log("A user disconnect");
-  });
-});
+  //user send message
+  socket.on("send-message",(data)=>{
+    const {receiveId }=data
+    const user=activeUsers.find((user)=>user.userId===receiveId)
+    console.log("Sending from socket to :"+receiveId);
+    console.log("message "+JSON.stringify(data));
+    if (user) {
+      io.to(user.socketId).emit("receive-message",data)
+      console.log("Message sent successfully to user: ", user.socketId);
+    }
+  })
+  // user disconnected
+  socket.on("disconnect",()=>{
+    activeUsers=activeUsers.filter((user)=>user.socketId !==socket.id)
+    console.log("User disconnected"), activeUsers;
+    io.emit("get-users",activeUsers)
+  })
+})
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
