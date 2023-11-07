@@ -88,7 +88,7 @@ io.on("connection",(socket)=>{
     console.log("Sending from socket to :"+receiveId);
     console.log("message "+JSON.stringify(data));
     if (user) {
-      io.to(user.socketId).emit("receive-message",data)
+      io.except(user.socketId).emit("receive-message",data)
       console.log("Message sent successfully to user: ", user.socketId);
     }
   })
