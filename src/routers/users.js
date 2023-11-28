@@ -9,4 +9,5 @@ route.post("/auth-user-email",userController.confirmAccountUser)
 route.get('/code-cookie',userController.token)// not yet done
 route.post("/logout",userController.logout)
 route.get("/list-user/:id",userController.allUserChat)
+route.get("/all-user/:id",userController.allUser)
 module.exports=route

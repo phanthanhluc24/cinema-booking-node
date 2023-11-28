@@ -112,6 +112,16 @@ class UserController {
       res.status(501).json(error)
     }
   }
+
+  async allUser(req,res){
+    const {id}=req.params
+    try {
+      const allUser=await userRepository.getAllUser(id)
+      res.status(201).json(allUser)
+    } catch (error) {
+      res.status(501).json(error)
+    }
+  }
 }
 
 module.exports = new UserController();

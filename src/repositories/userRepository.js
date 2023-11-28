@@ -12,6 +12,10 @@ class UserRepositories{
     async getUserChat(id){
         return await userModel.find({_id:{$in:id}})
     }
+
+    async getAllUser(id){
+        return await userModel.find({"_id":{$ne:id}})
+    }
 }
 
 module.exports=new UserRepositories();
